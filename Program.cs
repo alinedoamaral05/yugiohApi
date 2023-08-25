@@ -1,6 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using YuGiOhApi.Infra.Database.Config;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<YugiohContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

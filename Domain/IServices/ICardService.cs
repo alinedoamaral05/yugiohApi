@@ -9,5 +9,5 @@ public interface ICardService
     ReadCardDto UpdateById(CreateCardDto dto, int id);
     void DeleteById(int id);
     ReadCardDto FindById(int id);
-    ICollection<ReadCardDto> FindByGamer(int gamerId);
+    ICollection<ReadCardDto> FindAll();
 }

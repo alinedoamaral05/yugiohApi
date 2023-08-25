@@ -1,6 +1,5 @@
-﻿namespace YuGiOhApi.Infra.Database.Repositories
+﻿namespace YuGiOhApi.Infra.Database.Repositories;
+
+public class CardRepository
 {
-    public class CardRepository
-    {
-    }
 }
