@@ -1,6 +1,8 @@
-﻿namespace YuGiOhApi.Domain.Models;
+﻿using YuGiOhApi.Domain.Models;
 
-public class Card
+namespace YuGiOhApi.Domain.Dtos.Response;
+
+public class ReadCardDto
 {
     public int Id { get; set; }
     public string Name { get; set; }

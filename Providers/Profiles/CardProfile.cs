@@ -1,6 +1,8 @@
-﻿namespace YuGiOhApi.Providers.Profiles
+﻿using YuGiOhApi.Domain.Models;
+
+namespace YuGiOhApi.Providers.Profiles;
+
+public class CardProfile
 {
-    public class CardProfile
-    {
-    }
+    
 }

@@ -1,12 +1,13 @@
-﻿namespace YuGiOhApi.Domain.Models;
+﻿namespace YuGiOhApi.Domain.Dtos.Request;
 
-public class Card
+public class CreateCardDto
 {
-    public int Id { get; set; }
     public string Name { get; set; }
     public int CardTypeId { get; set; }
-    public CardType CardType { get; set; }
     public string Description { get; set; }
     public int AttackPoints { get; set; }
     public int? DeffensePoints { get; set; }
 }
+/*
+ nome, tipo (monstro, magia, armadilha), descrição, pontos de ataque e pontos de defesa (se aplicável).
+ */
