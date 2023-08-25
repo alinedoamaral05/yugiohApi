@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infra\Database\Config\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
