@@ -8,7 +8,7 @@ namespace YuGiOhApi.Infra.Database.Repositories
     {
         private readonly CardRepository _context;
 
-        public CardRepository(YuGiOhApi context)
+        public CardRepository(CardRepository context)
         {
             _context = context;
         }
