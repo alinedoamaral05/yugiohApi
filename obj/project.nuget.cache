@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "bikMoXh1YZVK2gI6uPI0ffK7oBiDZFe6j4qH6fI6cxyZM998+1PbM4Jn17XmOHRjeFntAmxUD1WFetS40C58lw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Aline do Amaral\\Desktop\\RocketUpNet\\YuGiOhApi\\YuGiOhApi.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Aline do Amaral\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.10\\microsoft.aspnetcore.openapi.7.0.10.nupkg.sha512",
+    "C:\\Users\\Aline do Amaral\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "C:\\Users\\Aline do Amaral\\.nuget\\packages\\microsoft.openapi\\1.4.3\\microsoft.openapi.1.4.3.nupkg.sha512",
+    "C:\\Users\\Aline do Amaral\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
+    "C:\\Users\\Aline do Amaral\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
+    "C:\\Users\\Aline do Amaral\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
+    "C:\\Users\\Aline do Amaral\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.5.0\\swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
