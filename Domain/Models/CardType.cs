@@ -1,9 +1,12 @@
-﻿namespace YuGiOhApi.Domain.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace YuGiOhApi.Domain.Models;
 
 public class CardType
 {
+    [Key]
+    [Required]
     public int Id { get; set; }
-    public string Monster { get; set; }
-    public string Magic { get; set; }
-    public string Trap { get; set; }
+    [Required]
+    public string Type { get; set; }
 }

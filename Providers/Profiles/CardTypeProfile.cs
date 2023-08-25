@@ -5,11 +5,12 @@ using YuGiOhApi.Domain.Models;
 
 namespace YuGiOhApi.Providers.Profiles;
 
-public class CardProfile: Profile
+public class CardTypeProfile: Profile
 {
-    public CardProfile()
+    public CardTypeProfile()
     {
-        CreateMap<CreateCardDto,  Card>();
-        CreateMap<Card, ReadCardDto>();
+
+        CreateMap<CreateCardTypeDto, Card>();
+        CreateMap<Card, ReadCardTypeDto>();
     }
 }
