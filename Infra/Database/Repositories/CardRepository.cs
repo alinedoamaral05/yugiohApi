@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using YuGiOhApi.Domain.Dtos.Response;
 using YuGiOhApi.Domain.IRepositories;
 using YuGiOhApi.Domain.Models;
 using YuGiOhApi.Infra.Database.Config.Entity;
 
 namespace YuGiOhApi.Infra.Database.Repositories
 {
-    public class CardRepository : ICardRepository
+    public class CardRepository : IRepository<Card>
     {
         private readonly YugiohContext _context;
 

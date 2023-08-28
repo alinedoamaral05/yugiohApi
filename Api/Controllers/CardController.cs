@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using YuGiOhApi.Domain.Dtos.Request;
+using YuGiOhApi.Domain.Dtos.Response;
 using YuGiOhApi.Domain.IServices;
 
 namespace YuGiOhApi.Api.Controllers;
@@ -8,9 +9,9 @@ namespace YuGiOhApi.Api.Controllers;
 [Route("cards")]
 public class CardController: ControllerBase
 {
-    private readonly ICardService _cardService;
+    private readonly IService<ReadCardDto, CreateCardDto, UpdateCardDto> _cardService;
 
-    public CardController(ICardService cardService)
+    public CardController(IService<ReadCardDto, CreateCardDto, UpdateCardDto> cardService)
     {
         _cardService = cardService;
     }
@@ -59,17 +60,10 @@ public class CardController: ControllerBase
             return Problem(ex.Message);
         }
     }
-    public async Task<IActionResult> UpdateCard(int id, [FromBody] CreateCardDto dto)
+    public async Task<IActionResult> UpdateCard(int id, [FromBody] UpdateCardDto dto)
     {
         try
         {
-            var card = await _cardService.FindById(id);
-            if (card == null)
-            {
-                //passar para dto de creation
-                return await PostCard(dto);
-            }
-
             await _cardService.UpdateById(dto, id);
 
             return NoContent();
