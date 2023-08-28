@@ -16,11 +16,11 @@ public class CardController: ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetCards()
+    public async Task<IActionResult> GetCards()
     {
         try
         {
-            var cards = _cardService.FindAll();
+            var cards = await _cardService.FindAll();
 
             return Ok(cards);
         }
@@ -30,11 +30,11 @@ public class CardController: ControllerBase
         }
     }
     [HttpGet("{id : int}")]
-    public IActionResult GetCardById(int id)
+    public async Task<IActionResult> GetCardById(int id)
     {
         try
         {
-            var card = _cardService.FindById(id);
+            var card = await _cardService.FindById(id);
 
             return Ok(card);
         }
@@ -43,11 +43,11 @@ public class CardController: ControllerBase
             return Problem(ex.Message);
         }
     }
-    public IActionResult PostCard([FromBody] CreateCardDto dto)
+    public async Task<IActionResult> PostCard([FromBody] CreateCardDto dto)
     {
         try
         {
-            var card = _cardService.Create(dto);
+            var card = await _cardService.Create(dto);
 
             return CreatedAtAction(
                 nameof(GetCardById),
@@ -59,18 +59,18 @@ public class CardController: ControllerBase
             return Problem(ex.Message);
         }
     }
-    public IActionResult UpdateCard(int id, [FromBody] CreateCardDto dto)
+    public async Task<IActionResult> UpdateCard(int id, [FromBody] CreateCardDto dto)
     {
         try
         {
-            var card = _cardService.FindById(id);
+            var card = await _cardService.FindById(id);
             if (card == null)
             {
                 //passar para dto de creation
-                return PostCard(dto);
+                return await PostCard(dto);
             }
 
-            _cardService.UpdateById(dto, id);
+            await _cardService.UpdateById(dto, id);
 
             return NoContent();
 
@@ -80,11 +80,11 @@ public class CardController: ControllerBase
             return Problem(ex.Message);
         }
     }
-    public IActionResult DeleteCard(int id)
+    public async Task<IActionResult> DeleteCard(int id)
     {
         try
         {
-            _cardService.DeleteById(id);
+            await _cardService.DeleteById(id);
             return NoContent();
         }
         catch (Exception ex)
