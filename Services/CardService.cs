@@ -19,50 +19,50 @@ namespace YuGiOhApi.Services
             _mapper = mapper;
         }
 
-        public ReadCardDto Create(CreateCardDto dto)
+        public async Task<ReadCardDto> Create(CreateCardDto dto)
         {
             var card = _mapper.Map<Card>(dto);
-            _cardRepository.Create(card);
+            await _cardRepository.Create(card);
 
             var readDto = _mapper.Map<ReadCardDto>(card);
 
             return readDto;
         }
 
-        public void DeleteById(int id)
+        public async Task DeleteById(int id)
         {
-            var card = _cardRepository.FindById(id) ?? throw new NotFoundException();
+            var card = await _cardRepository.FindById(id) ?? throw new NotFoundException();
 
-            _cardRepository.Delete(card);
+            await _cardRepository.Delete(card);
         }
 
-        public ICollection<ReadCardDto> FindAll()
+        public async Task<ICollection<ReadCardDto>> FindAll()
         {
-            var cards = _cardRepository.FindAll();
+            var cards = await _cardRepository.FindAll();
             var list = _mapper.Map<IList<ReadCardDto>>(cards);
 
             return list;
         }
 
-        public ReadCardDto FindById(int id)
+        public async Task<ReadCardDto> FindById(int id)
         {
-            var card = _cardRepository.FindById(id) ?? throw new NotFoundException();
+            var card = await _cardRepository.FindById(id) ?? throw new NotFoundException();
 
             var readDto = _mapper.Map<ReadCardDto>(card);
 
             return readDto;
         }
 
-        public ReadCardDto UpdateById(CreateCardDto dto, int id)
+        public async Task<ReadCardDto> UpdateById(CreateCardDto dto, int id)
         {
-            var card = _cardRepository.FindById(id);
+            var card = await _cardRepository.FindById(id);
             if (card == null)
             {
-                return Create(dto);
+                return await Create(dto);
             }
 
             _mapper.Map(dto, card);
-            _cardRepository.Update(card);
+            await _cardRepository.Update(card);
 
             var readDto = _mapper.Map<ReadCardDto>(card);
 
