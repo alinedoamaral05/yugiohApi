@@ -8,12 +8,12 @@ using YuGiOhApi.Exceptions;
 
 namespace YuGiOhApi.Services
 {
-    public class CardService : ICardService
+    public class CardService : IService<ReadCardDto, CreateCardDto, UpdateCardDto>
     {
-        private readonly ICardRepository _cardRepository;
+        private readonly IRepository<Card> _cardRepository;
         private readonly IMapper _mapper;
 
-        public CardService(ICardRepository cardRepository, IMapper mapper)
+        public CardService(IRepository<Card> cardRepository, IMapper mapper)
         {
             _cardRepository = cardRepository;
             _mapper = mapper;
@@ -53,12 +53,13 @@ namespace YuGiOhApi.Services
             return readDto;
         }
 
-        public async Task<ReadCardDto> UpdateById(CreateCardDto dto, int id)
+        public async Task<ReadCardDto> UpdateById(UpdateCardDto dto, int id)
         {
             var card = await _cardRepository.FindById(id);
             if (card == null)
             {
-                return await Create(dto);
+                var create = _mapper.Map<CreateCardDto>(dto);
+                return await Create(create);
             }
 
             _mapper.Map(dto, card);
