@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using YuGiOhApi.Infra.Database.Config;
+using YuGiOhApi.Infra.Database.Config.Entity;
+using YuGiOhApi.Infra.Database.Config.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<YugiohContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddDbContext<UserContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

@@ -8,5 +8,5 @@ public interface ICardRepository
     Card Update(Card workout);
     void Delete(Card workout);
     Card? FindById(int id);
-    ICollection<Card> FindByGamer(int gamerId);
+    ICollection<Card> FindAll();
 }
