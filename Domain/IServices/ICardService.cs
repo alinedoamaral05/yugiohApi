@@ -5,9 +5,9 @@ namespace YuGiOhApi.Domain.IServices;
 
 public interface ICardService
 {
-    ReadCardDto Create(CreateCardDto dto);
-    ReadCardDto UpdateById(CreateCardDto dto, int id);
-    void DeleteById(int id);
-    ReadCardDto FindById(int id);
-    ICollection<ReadCardDto> FindAll();
+    Task<ReadCardDto> Create(CreateCardDto dto);
+    Task<ReadCardDto> UpdateById(CreateCardDto dto, int id);
+    Task DeleteById(int id);
+    Task<ReadCardDto> FindById(int id);
+    Task<ICollection<ReadCardDto>> FindAll();
 }

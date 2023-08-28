@@ -4,9 +4,9 @@ namespace YuGiOhApi.Domain.IRepositories;
 
 public interface ICardRepository
 {
-    Card Create(Card workout);
-    Card Update(Card workout);
-    void Delete(Card workout);
-    Card? FindById(int id);
-    ICollection<Card> FindAll();
+    Task<Card> Create(Card workout);
+    Task<Card> Update(Card workout);
+    Task Delete(Card workout);
+    Task<Card?> FindById(int id);
+    Task<ICollection<Card>> FindAll();
 }

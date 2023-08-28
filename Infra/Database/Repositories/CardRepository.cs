@@ -1,4 +1,5 @@
-﻿using YuGiOhApi.Domain.Dtos.Response;
+﻿using Microsoft.EntityFrameworkCore;
+using YuGiOhApi.Domain.Dtos.Response;
 using YuGiOhApi.Domain.IRepositories;
 using YuGiOhApi.Domain.Models;
 using YuGiOhApi.Infra.Database.Config.Entity;
@@ -14,39 +15,40 @@ namespace YuGiOhApi.Infra.Database.Repositories
             _context = context;
         }
 
-        public Card Create(Card card)
+        public async Task<Card> Create(Card card)
         {
-            _context.Cards.Add(card);
-            _context.SaveChanges();
+            await _context.Cards.AddAsync(card);
+            await _context.SaveChangesAsync();
 
             return card;
         }
 
-        public void Delete(Card card)
+        public async Task Delete(Card card)
         {
             _context.Cards.Remove(card);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public ICollection<Card> FindAll()
+        public async Task<ICollection<Card>> FindAll()
         {
-            var cardList = _context.Cards.ToList();
+            
+            var cardList = await _context.Cards.ToListAsync();
 
             return cardList;
         }
 
-        public Card? FindById(int id)
+        public async Task<Card?> FindById(int id)
         {
-            var card = _context.Cards
-            .FirstOrDefault(card => card.Id == id);
+            var card = await _context.Cards
+            .FirstOrDefaultAsync(card => card.Id == id);
 
             return card;
         }
 
-        public Card Update(Card card)
+        public async Task<Card> Update(Card card)
         {
             _context.Update(card);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return card;
         }
