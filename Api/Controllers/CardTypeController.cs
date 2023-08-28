@@ -1,27 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using YuGiOhApi.Domain.Dtos.Request;
+using YuGiOhApi.Domain.Dtos.Response;
 using YuGiOhApi.Domain.IServices;
 
 namespace YuGiOhApi.Api.Controllers;
 
 [ApiController]
 [Route("cardType")]
-public class CardTypeController: ControllerBase
+public class CardTypeController : ControllerBase
 {
+    private readonly IService<ReadCardTypeDto, CreateCardTypeDto, UpdateCardTypeDto> _cardTypeService;
 
-    private readonly ICardTypeService _cardTypeService;
-
-    public CardTypeController(ICardTypeService cardTypeService)
+    public CardTypeController(IService<ReadCardTypeDto, CreateCardTypeDto, UpdateCardTypeDto> cardTypeService)
     {
         _cardTypeService = cardTypeService;
     }
 
     [HttpGet]
-    public IActionResult GetCards()
+    public async Task<IActionResult> GetCards()
     {
         try
         {
-            var cards = _cardTypeService.FindAll();
+            var cards = await _cardTypeService.FindAll();
 
             return Ok(cards);
         }
@@ -30,12 +30,13 @@ public class CardTypeController: ControllerBase
             return Problem(ex.Message);
         }
     }
+
     [HttpGet("{id : int}")]
-    public IActionResult GetCardById(int id)
+    public async Task<IActionResult> GetCardTypeById(int id)
     {
         try
         {
-            var card = _cardTypeService.FindById(id);
+            var card = await _cardTypeService.FindById(id);
 
             return Ok(card);
         }
@@ -44,34 +45,31 @@ public class CardTypeController: ControllerBase
             return Problem(ex.Message);
         }
     }
-    public IActionResult PostCard([FromBody] CreateCardDto dto)
+
+    [HttpPost]
+    public async Task<IActionResult> PostCardType([FromBody] CreateCardTypeDto dto)
     {
         try
         {
-            var card = _cardTypeService.Create(dto);
+            var cardType = await _cardTypeService.Create(dto);
 
             return CreatedAtAction(
-                nameof(GetCardById),
-                new { id = card.Id },
-                    card);
+                nameof(GetCardTypeById),
+                new { id = cardType.Id },
+                    cardType);
         }
         catch (Exception ex)
         {
             return Problem(ex.Message);
         }
     }
-    public IActionResult UpdateCard(int id, [FromBody] CreateCardDto dto)
+
+    [HttpPut("{id : int}")]
+    public async Task<IActionResult> UpdateCardType(int id, [FromBody] UpdateCardTypeDto dto)
     {
         try
         {
-            var card = _cardTypeService.FindById(id);
-            if (card == null)
-            {
-                //passar para dto de creation
-                return PostCard(dto);
-            }
-
-            _cardTypeService.UpdateById(dto, id);
+            await _cardTypeService.UpdateById(dto, id);
 
             return NoContent();
 
@@ -81,11 +79,12 @@ public class CardTypeController: ControllerBase
             return Problem(ex.Message);
         }
     }
-    public IActionResult DeleteCard(int id)
+    [HttpDelete("{id : int}")]
+    public async Task<IActionResult> DeleteCardType(int id)
     {
         try
         {
-            _cardTypeService.DeleteById(id);
+            await _cardTypeService.DeleteById(id);
             return NoContent();
         }
         catch (Exception ex)

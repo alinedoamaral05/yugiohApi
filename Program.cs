@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using YuGiOhApi.Infra.Database.Config.Entity;
 using YuGiOhApi.Infra.Database.Config.Identity;
@@ -9,7 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<YugiohContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDbContext<UserContext>(options => options.UseSqlServer(connectionString));
+builder.Services
+    .AddIdentity<UserContext, IdentityRole>()
+    .AddEntityFrameworkStores<UserContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
