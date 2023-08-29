@@ -2,10 +2,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using YuGiOhApi.Domain.Dtos.Request;
 using YuGiOhApi.Domain.Dtos.Response;
+using YuGiOhApi.Domain.IRepositories;
 using YuGiOhApi.Domain.IServices;
 using YuGiOhApi.Domain.Models;
 using YuGiOhApi.Infra.Database.Config.Entity;
 using YuGiOhApi.Infra.Database.Config.Identity;
+using YuGiOhApi.Infra.Database.Repositories;
 using YuGiOhApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +29,11 @@ builder.Services
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IUserService<LoginUserDto>, UserService>();
+builder.Services.AddScoped<ICardService, CardService>();
+builder.Services.AddScoped<ICardRepository, CardRepository>();
+
+builder.Services.AddScoped<ICardTypeService, CardTypeService>();
+builder.Services.AddScoped<ICardTypeRepository, CardTypeRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
