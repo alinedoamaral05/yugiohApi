@@ -5,7 +5,7 @@ using YuGiOhApi.Infra.Database.Config.Entity;
 
 namespace YuGiOhApi.Infra.Database.Repositories;
 
-public class DeckRepository : IRepository<Deck>
+public class DeckRepository : IDeckRepository
 {
     private readonly YugiohContext _context;
 

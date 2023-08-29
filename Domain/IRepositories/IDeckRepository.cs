@@ -2,6 +2,6 @@
 
 namespace YuGiOhApi.Domain.IRepositories;
 
-public interface ICardRepository : IRepository<Card, int>
+public interface IDeckRepository : IRepository<Deck, int>
 {
 }

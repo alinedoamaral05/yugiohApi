@@ -1,37 +1,44 @@
-﻿using AutoMapper;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using YuGiOhApi.Domain.Dtos.Request;
 using YuGiOhApi.Domain.Dtos.Response;
 using YuGiOhApi.Domain.IRepositories;
 using YuGiOhApi.Domain.IServices;
-using YuGiOhApi.Domain.Models;
 using YuGiOhApi.Exceptions;
+using YuGiOhApi.Providers.Interfaces;
 
 namespace YuGiOhApi.Services;
 
-public class DeckService : IService<ReadDeckDto, CreateDeckDto, UpdateDeckDto, int>
+public class DeckService : IDeckService
 {
-    private readonly IRepository<Deck> _deckRepository;
-    private readonly IMapper _mapper;
+    private readonly IDeckRepository _deckRepository;
+    private readonly IUserRepository _userRepository;
+    private readonly IDeckMapper _mapper;
 
-    public DeckService(IRepository<Deck> deckRepository, IMapper mapper)
+    public DeckService(IDeckRepository deckRepository, IUserRepository userRepository, IDeckMapper mapper)
     {
         _deckRepository = deckRepository;
+        _userRepository = userRepository;
         _mapper = mapper;
     }
 
     public async Task<ReadDeckDto> Create(CreateDeckDto dto)
     {
-        var deck = _mapper.Map<Deck>(dto);
-        await _deckRepository.Create(deck);
+        var deck = _mapper.ToModel(dto);
 
-        var readDto = _mapper.Map<ReadDeckDto>(deck);
+        var user = await _userRepository.FindById(dto.UserName);
+
+        deck.User = user ?? throw new NotFoundException(name:"User");
+
+        await _deckRepository.Create(deck);
+      
+        var readDto = _mapper.ToReadDto(deck);
 
         return readDto;
     }
 
     public async Task DeleteById(int id)
     {
-        var deck = await _deckRepository.FindById(id) ?? throw new NotFoundException();
+        var deck = await _deckRepository.FindById(id) ?? throw new NotFoundException(name:"Deck");
 
         await _deckRepository.Delete(deck);
     }
@@ -39,16 +46,16 @@ public class DeckService : IService<ReadDeckDto, CreateDeckDto, UpdateDeckDto, i
     public async Task<ICollection<ReadDeckDto>> FindAll()
     {
         var decks = await _deckRepository.FindAll();
-        var list = _mapper.Map<IList<ReadDeckDto>>(decks);
+        var list = _mapper.ToReadDtoCollection(decks);
 
         return list;
     }
 
     public async Task<ReadDeckDto> FindById(int id)
     {
-        var deck = await _deckRepository.FindById(id) ?? throw new NotFoundException();
+        var deck = await _deckRepository.FindById(id) ?? throw new NotFoundException(name: "Deck");
 
-        var readDto = _mapper.Map<ReadDeckDto>(deck);
+        var readDto = _mapper.ToReadDto(deck);
 
         return readDto;
     }
@@ -58,14 +65,14 @@ public class DeckService : IService<ReadDeckDto, CreateDeckDto, UpdateDeckDto, i
         var deck = await _deckRepository.FindById(id);
         if (deck == null)
         {
-            var create = _mapper.Map<CreateDeckDto>(dto);
+            var create = _mapper.ToCreateDto(dto);
             return await Create(create);
         }
 
-        _mapper.Map(dto, deck);
+        _mapper.UpdateModel(dto, deck);
         await _deckRepository.Update(deck);
 
-        var readDto = _mapper.Map<ReadDeckDto>(deck);
+        var readDto = _mapper.ToReadDto(deck);
 
         return readDto;
     }
