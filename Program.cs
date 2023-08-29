@@ -8,7 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var userConnectionString = builder.Configuration.GetConnectionString("UserConnection");
+
 builder.Services.AddDbContext<YugiohContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddDbContext<UserContext>(options => options.UseSqlServer(userConnectionString));
 
 builder.Services
     .AddIdentity<UserContext, IdentityRole>()
