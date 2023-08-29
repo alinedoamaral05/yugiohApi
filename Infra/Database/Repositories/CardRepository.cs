@@ -5,7 +5,7 @@ using YuGiOhApi.Infra.Database.Config.Entity;
 
 namespace YuGiOhApi.Infra.Database.Repositories
 {
-    public class CardRepository : IRepository<Card>
+    public class CardRepository : ICardRepository
     {
         private readonly YugiohContext _context;
 
@@ -29,8 +29,7 @@ namespace YuGiOhApi.Infra.Database.Repositories
         }
 
         public async Task<ICollection<Card>> FindAll()
-        {
-            
+        {            
             var cardList = await _context.Cards.ToListAsync();
 
             return cardList;
