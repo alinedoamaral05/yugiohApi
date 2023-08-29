@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using YuGiOhApi.Domain.Dtos.Request;
 using YuGiOhApi.Domain.Models;
+using YuGiOhApi.Services;
 
 namespace YuGiOhApi.Api.Controllers;
 
@@ -11,21 +12,29 @@ namespace YuGiOhApi.Api.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IMapper _mapper;
-
-    private readonly UserManager<User> _userManager;
-    public UserController(IMapper mapper, UserManager<User> userManager)
+    private UserService _userService;
+    public UserController(IMapper mapper, UserService userService)
     {
         _mapper = mapper;
-        _userManager = userManager;
+        _userService = userService;
+    }
+
+    public async Task<IActionResult> Login(LoginUserDto dto)
+    {
+        await _userService.Login(dto);
     }
 
     [HttpPost]
     public async Task<IActionResult> RegisterUser(CreateUserDto dto)
     {
-        User user = _mapper.Map<User>(dto);
-        IdentityResult result = await _userManager.CreateAsync(user, dto.Password);
-
-        if (result.Succeeded) return Ok("User not registered");
-        throw new ApplicationException("Failed to register user!");
+        try
+        {
+            var user = await _userService.Create(dto);
+            return Ok(user);
+        }
+        catch (Exception ex)
+        {
+            throw new ApplicationException(ex.Message);
+        }
     }
 }
