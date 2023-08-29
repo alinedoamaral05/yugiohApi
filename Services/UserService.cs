@@ -23,6 +23,19 @@ public class UserService : IUserService<LoginUserDto>
         _tokenService = tokenService;
     }
 
+    public async Task<string> Login(LoginUserDto loginUserType)
+    {
+        var result = await
+            _signInManager
+            .PasswordSignInAsync(
+                loginUserType.Username,
+                loginUserType.Password,
+                false,
+                false
+                );
+
+        throw new NotImplementedException();
+    }
     public async Task<ReadUserDto> Create(CreateUserDto dto)
     {
         var user = _mapper.Map<User>(dto);
@@ -31,7 +44,7 @@ public class UserService : IUserService<LoginUserDto>
 
         if (!result.Succeeded)
         {
-            throw new Exception("User creation failed! Please check user details and try again.");
+            throw new Exception("User register failed! Please check user details and try again.");
         }
 
         var readDto = _mapper.Map<ReadUserDto>(user);
@@ -73,20 +86,6 @@ public class UserService : IUserService<LoginUserDto>
         var dtoUser = _mapper.Map<ReadUserDto>(user);
 
         return dtoUser;
-    }
-
-    public async Task<string> Login(LoginUserDto loginUserType)
-    {
-        var result = await
-            _signInManager
-            .PasswordSignInAsync(
-                loginUserType.Username,
-                loginUserType.Password,
-                false,
-                false
-                );
-
-        throw new NotImplementedException();
     }
 
     public async Task<ReadUserDto> UpdateById(UpdateUserDto dto, string id)
