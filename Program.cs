@@ -28,7 +28,7 @@ builder.Services
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-//builder.Services.AddScoped<IUserService<LoginUserDto>, UserService>();
+builder.Services.AddScoped<IUserService<LoginUserDto>, UserService>();
 builder.Services.AddScoped<ICardService, CardService>();
 builder.Services.AddScoped<ICardRepository, CardRepository>();
 
