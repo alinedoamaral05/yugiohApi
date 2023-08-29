@@ -1,4 +1,5 @@
-﻿using YuGiOhApi.Domain.Dtos.Request;
+﻿using AutoMapper;
+using YuGiOhApi.Domain.Dtos.Request;
 using YuGiOhApi.Domain.Dtos.Response;
 using YuGiOhApi.Domain.Models;
 using YuGiOhApi.Providers.Interfaces;
@@ -7,8 +8,8 @@ namespace YuGiOhApi.Providers.Implementations;
 
 public class CardTypeMapper : ICardTypeMapper
 {
-    private readonly ICardTypeMapper _mapper;
-    public CardTypeMapper(ICardTypeMapper mapper)
+    private readonly IMapper _mapper;
+    public CardTypeMapper(IMapper mapper)
     {
         _mapper = mapper;
     }
@@ -17,18 +18,18 @@ public class CardTypeMapper : ICardTypeMapper
         _mapper.Map<CreateCardTypeDto>(dto);
 
 
-    public Card UpdateModel(UpdateCardTypeDto dto, Card card) =>
+    public CardType UpdateModel(UpdateCardTypeDto dto, CardType card) =>
         _mapper.Map(dto, card);
 
 
-    public Card ToModel(CreateCardDto dto) =>
-    _mapper.Map<Card>(dto);
+    public CardType ToModel(CreateCardTypeDto dto) =>
+    _mapper.Map<CardType>(dto);
 
 
 
-    public ReadCardDto ToReadDto(Card card) =>
-        _mapper.Map<ReadCardDto>(card);
+    public ReadCardTypeDto ToReadDto(CardType card) =>
+        _mapper.Map<ReadCardTypeDto>(card);
 
-    public ICollection<ReadCardDto> ToReadDtoCollection(ICollection<Card> cards) =>
-        _mapper.Map<ICollection<ReadCardDto>>(cards);
+    public ICollection<ReadCardTypeDto> ToReadDtoCollection(ICollection<CardType> cards) =>
+        _mapper.Map<ICollection<ReadCardTypeDto>>(cards);
 }
