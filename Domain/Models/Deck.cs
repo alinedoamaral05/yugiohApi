@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace YuGiOhApi.Domain.Models;
 
@@ -11,8 +12,8 @@ public class Deck
     [Required]
     public string Name { get; set; }
 
-    [Required]
-    public int UserId { get; set; }
+    [NotMapped]
+    public string UserName { get; set; }
 
     public User User { get; set; }
 

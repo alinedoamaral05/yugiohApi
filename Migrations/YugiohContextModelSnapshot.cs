@@ -56,7 +56,7 @@ namespace YuGiOhApi.Migrations
 
                     b.HasIndex("DeckId");
 
-                    b.ToTable("Cards");
+                    b.ToTable("Cards", (string)null);
                 });
 
             modelBuilder.Entity("YuGiOhApi.Domain.Models.CardType", b =>
@@ -73,7 +73,7 @@ namespace YuGiOhApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CardTypes");
+                    b.ToTable("CardTypes", (string)null);
                 });
 
             modelBuilder.Entity("YuGiOhApi.Domain.Models.Deck", b =>
@@ -90,7 +90,7 @@ namespace YuGiOhApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Decks");
+                    b.ToTable("Decks", (string)null);
                 });
 
             modelBuilder.Entity("YuGiOhApi.Domain.Models.Card", b =>

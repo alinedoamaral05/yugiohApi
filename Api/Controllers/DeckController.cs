@@ -9,9 +9,9 @@ namespace YuGiOhApi.Api.Controllers;
 [Route("decks")]
 public class DeckController : ControllerBase
 {
-    private readonly IService<ReadDeckDto, CreateDeckDto, UpdateDeckDto, int> _deckService;
+    private readonly IDeckService _deckService;
 
-    public DeckController(IService<ReadDeckDto, CreateDeckDto, UpdateDeckDto, int> deckService)
+    public DeckController(IDeckService deckService)
     {
         _deckService = deckService;
     }
