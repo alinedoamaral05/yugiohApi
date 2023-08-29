@@ -34,7 +34,19 @@ public class UserService : IUserService<LoginUserDto>
                 false
                 );
 
-        throw new NotImplementedException();
+        if (!result.Succeeded)
+        {
+            throw new ApplicationException("User not auth");
+        }
+
+        var user = _signInManager
+            .UserManager
+            .Users
+            .FirstOrDefault(user => user.NormalizedUserName == loginUserType.Username.ToUpper());
+
+        var token = _tokenService.GenerateToken(user);
+
+        return token;
     }
     public async Task<ReadUserDto> Create(CreateUserDto dto)
     {
