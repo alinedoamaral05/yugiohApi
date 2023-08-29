@@ -9,9 +9,9 @@ namespace YuGiOhApi.Api.Controllers;
 [Route("cards")]
 public class CardController : ControllerBase
 {
-    private readonly IService<ReadCardDto, CreateCardDto, UpdateCardDto, int> _cardService;
+    private readonly ICardService _cardService;
 
-    public CardController(IService<ReadCardDto, CreateCardDto, UpdateCardDto, int> cardService)
+    public CardController(ICardService cardService)
     {
         _cardService = cardService;
     }

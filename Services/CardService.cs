@@ -10,10 +10,10 @@ namespace YuGiOhApi.Services
 {
     public class CardService : ICardService
     {
-        private readonly IRepository<Card> _cardRepository;
+        private readonly ICardRepository _cardRepository;
         private readonly IMapper _mapper;
 
-        public CardService(IRepository<Card> cardRepository, IMapper mapper)
+        public CardService(ICardRepository cardRepository, IMapper mapper)
         {
             _cardRepository = cardRepository;
             _mapper = mapper;

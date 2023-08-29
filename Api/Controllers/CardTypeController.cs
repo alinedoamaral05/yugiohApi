@@ -9,9 +9,9 @@ namespace YuGiOhApi.Api.Controllers;
 [Route("cardType")]
 public class CardTypeController : ControllerBase
 {
-    private readonly IService<ReadCardTypeDto, CreateCardTypeDto, UpdateCardTypeDto, int> _cardTypeService;
+    private readonly ICardTypeService _cardTypeService;
 
-    public CardTypeController(IService<ReadCardTypeDto, CreateCardTypeDto, UpdateCardTypeDto, int> cardTypeService)
+    public CardTypeController(ICardTypeService cardTypeService)
     {
         _cardTypeService = cardTypeService;
     }

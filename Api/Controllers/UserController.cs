@@ -19,10 +19,10 @@ public class UserController : ControllerBase
         _userService = userService;
     }
 
-    public async Task<IActionResult> Login(LoginUserDto dto)
-    {
-        await _userService.Login(dto);
-    }
+    //public async Task<IActionResult> Login(LoginUserDto dto)
+    //{
+    //    await _userService.Login(dto);
+    //}
 
     [HttpPost]
     public async Task<IActionResult> RegisterUser(CreateUserDto dto)
