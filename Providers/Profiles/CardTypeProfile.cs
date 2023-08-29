@@ -9,8 +9,9 @@ public class CardTypeProfile: Profile
 {
     public CardTypeProfile()
     {
-
         CreateMap<CreateCardTypeDto, Card>();
         CreateMap<Card, ReadCardTypeDto>();
+        CreateMap<UpdateCardDto, Card>();
+        CreateMap<UpdateCardTypeDto, CreateCardTypeDto>();
     }
 }
