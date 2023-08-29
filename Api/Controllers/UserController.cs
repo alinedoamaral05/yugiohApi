@@ -1,8 +1,5 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using YuGiOhApi.Domain.Dtos.Request;
-using YuGiOhApi.Domain.Models;
 using YuGiOhApi.Services;
 
 namespace YuGiOhApi.Api.Controllers;
@@ -11,20 +8,19 @@ namespace YuGiOhApi.Api.Controllers;
 [Route("users")]
 public class UserController : ControllerBase
 {
-    private readonly IMapper _mapper;
     private UserService _userService;
-    public UserController(IMapper mapper, UserService userService)
+    public UserController(UserService userService)
     {
-        _mapper = mapper;
         _userService = userService;
     }
-
+    [HttpPost("login")]
     public async Task<IActionResult> Login(LoginUserDto dto)
     {
-        await _userService.Login(dto);
+        var token = await _userService.Login(dto);
+        return Ok(token);
     }
 
-    [HttpPost]
+    [HttpPost("register")]
     public async Task<IActionResult> RegisterUser(CreateUserDto dto)
     {
         try
