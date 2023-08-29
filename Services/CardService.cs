@@ -8,7 +8,7 @@ using YuGiOhApi.Exceptions;
 
 namespace YuGiOhApi.Services
 {
-    public class CardService : IService<ReadCardDto, CreateCardDto, UpdateCardDto, int>
+    public class CardService : ICardService
     {
         private readonly IRepository<Card> _cardRepository;
         private readonly IMapper _mapper;
