@@ -9,9 +9,9 @@ namespace YuGiOhApi.Api.Controllers;
 [Route("cardType")]
 public class CardTypeController : ControllerBase
 {
-    private readonly IService<ReadCardTypeDto, CreateCardTypeDto, UpdateCardTypeDto> _cardTypeService;
+    private readonly IService<ReadCardTypeDto, CreateCardTypeDto, UpdateCardTypeDto, int> _cardTypeService;
 
-    public CardTypeController(IService<ReadCardTypeDto, CreateCardTypeDto, UpdateCardTypeDto> cardTypeService)
+    public CardTypeController(IService<ReadCardTypeDto, CreateCardTypeDto, UpdateCardTypeDto, int> cardTypeService)
     {
         _cardTypeService = cardTypeService;
     }
@@ -31,7 +31,7 @@ public class CardTypeController : ControllerBase
         }
     }
 
-    [HttpGet("{id : int}")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> GetCardTypeById(int id)
     {
         try
@@ -64,7 +64,7 @@ public class CardTypeController : ControllerBase
         }
     }
 
-    [HttpPut("{id : int}")]
+    [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateCardType(int id, [FromBody] UpdateCardTypeDto dto)
     {
         try
@@ -79,7 +79,7 @@ public class CardTypeController : ControllerBase
             return Problem(ex.Message);
         }
     }
-    [HttpDelete("{id : int}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteCardType(int id)
     {
         try

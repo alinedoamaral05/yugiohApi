@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using YuGiOhApi.Domain.Models;
 using YuGiOhApi.Infra.Database.Config.Entity;
 using YuGiOhApi.Infra.Database.Config.Identity;
 
@@ -15,7 +16,7 @@ builder.Services.AddDbContext<YugiohContext>(options => options.UseSqlServer(con
 builder.Services.AddDbContext<UserContext>(options => options.UseSqlServer(userConnectionString));
 
 builder.Services
-    .AddIdentity<UserContext, IdentityRole>()
+    .AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<UserContext>()
     .AddDefaultTokenProviders();
 
