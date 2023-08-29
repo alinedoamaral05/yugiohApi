@@ -7,11 +7,11 @@ namespace YuGiOhApi.Api.Controllers;
 
 [ApiController]
 [Route("cards")]
-public class CardController: ControllerBase
+public class CardController : ControllerBase
 {
-    private readonly IService<ReadCardDto, CreateCardDto, UpdateCardDto> _cardService;
+    private readonly IService<ReadCardDto, CreateCardDto, UpdateCardDto, int> _cardService;
 
-    public CardController(IService<ReadCardDto, CreateCardDto, UpdateCardDto> cardService)
+    public CardController(IService<ReadCardDto, CreateCardDto, UpdateCardDto, int> cardService)
     {
         _cardService = cardService;
     }
@@ -30,7 +30,7 @@ public class CardController: ControllerBase
             return Problem(ex.Message);
         }
     }
-    [HttpGet("{id : int}")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> GetCardById(int id)
     {
         try
@@ -44,6 +44,7 @@ public class CardController: ControllerBase
             return Problem(ex.Message);
         }
     }
+    [HttpPost]
     public async Task<IActionResult> PostCard([FromBody] CreateCardDto dto)
     {
         try
@@ -60,6 +61,7 @@ public class CardController: ControllerBase
             return Problem(ex.Message);
         }
     }
+    [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateCard(int id, [FromBody] UpdateCardDto dto)
     {
         try
@@ -69,11 +71,12 @@ public class CardController: ControllerBase
             return NoContent();
 
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             return Problem(ex.Message);
         }
     }
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteCard(int id)
     {
         try

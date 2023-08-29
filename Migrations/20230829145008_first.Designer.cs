@@ -12,7 +12,7 @@ using YuGiOhApi.Infra.Database.Config.Entity;
 namespace YuGiOhApi.Migrations
 {
     [DbContext(typeof(YugiohContext))]
-    [Migration("20230825190312_first")]
+    [Migration("20230829145008_first")]
     partial class first
     {
         /// <inheritdoc />
@@ -39,6 +39,9 @@ namespace YuGiOhApi.Migrations
                     b.Property<int>("CardTypeId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("DeckId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("DeffensePoints")
                         .HasColumnType("int");
 
@@ -53,6 +56,8 @@ namespace YuGiOhApi.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CardTypeId");
+
+                    b.HasIndex("DeckId");
 
                     b.ToTable("Cards");
                 });
@@ -74,6 +79,23 @@ namespace YuGiOhApi.Migrations
                     b.ToTable("CardTypes");
                 });
 
+            modelBuilder.Entity("YuGiOhApi.Domain.Models.Deck", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Decks");
+                });
+
             modelBuilder.Entity("YuGiOhApi.Domain.Models.Card", b =>
                 {
                     b.HasOne("YuGiOhApi.Domain.Models.CardType", "CardType")
@@ -82,7 +104,16 @@ namespace YuGiOhApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("YuGiOhApi.Domain.Models.Deck", null)
+                        .WithMany("Cards")
+                        .HasForeignKey("DeckId");
+
                     b.Navigation("CardType");
+                });
+
+            modelBuilder.Entity("YuGiOhApi.Domain.Models.Deck", b =>
+                {
+                    b.Navigation("Cards");
                 });
 #pragma warning restore 612, 618
         }
