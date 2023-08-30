@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace YuGiOhApi.Domain.Models;
 
+[Table("Cards")]
 public class Card
 {
     [Key]
@@ -18,4 +20,10 @@ public class Card
     [Required]
     public int AttackPoints { get; set; }
     public int? DeffensePoints { get; set; }
+    public ICollection<Deck> Decks { get; set; }
+
+    public Card()
+    {
+        Decks = new List<Deck>();
+    }
 }

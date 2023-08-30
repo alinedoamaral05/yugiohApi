@@ -24,17 +24,19 @@ var userConnectionString = builder.Configuration.GetConnectionString("UserConnec
 
 builder.Services.AddDbContext<YugiohContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDbContext<UserContext>(options => options.UseSqlServer(userConnectionString));
+//builder.Services.AddDbContext<UserContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services
     .AddIdentity<User, IdentityRole>()
-    .AddEntityFrameworkStores<UserContext>()
+    .AddEntityFrameworkStores<YugiohContext>()
     .AddDefaultTokenProviders();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IUserService<LoginUserDto>, UserService>();
 builder.Services.AddScoped<IUserRepository,  UserRepository>();
+builder.Services.AddScoped<IUserMapper, UserMapper>();
+
 builder.Services.AddScoped<TokenService>();
 
 builder.Services.AddScoped<ICardService, CardService>();
@@ -59,7 +61,7 @@ builder.Services.AddAuthentication(opts =>
     Microsoft.IdentityModel.Tokens.TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("384qfheh89hq89fsda8HFQ349FHE")),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("384qfheh89hq89fsda8HFQ349FHE3823HUUHSK")),
         ValidateAudience = false,
         ValidateIssuer = false,
         ClockSkew = TimeSpan.Zero

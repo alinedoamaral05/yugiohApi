@@ -50,5 +50,21 @@ namespace YuGiOhApi.Infra.Database.Repositories
 
             return card;
         }
+
+        public async Task<ICollection<Card>> FindCardsById(List<int> cardIds)
+        {
+            List<Card> cardsList = new List<Card>(); 
+
+            foreach(var card in cardIds)
+            {
+               cardsList.Add(await 
+                   _context
+                   .Cards
+                   .FirstOrDefaultAsync(carda => carda.Id == card) 
+                   ?? throw new BadHttpRequestException($"Id: {card} not exists"));
+            }
+
+            return cardsList;
+        }
     }
 }

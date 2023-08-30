@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace YuGiOhApi.Domain.Models;
 
+[Table("Decks")]
 public class Deck
 {
     [Key]

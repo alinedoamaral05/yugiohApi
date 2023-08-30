@@ -5,17 +5,18 @@ using YuGiOhApi.Domain.Dtos.Request;
 using YuGiOhApi.Domain.Dtos.Response;
 using YuGiOhApi.Domain.IServices;
 using YuGiOhApi.Domain.Models;
+using YuGiOhApi.Providers.Interfaces;
 
 namespace YuGiOhApi.Services;
 
 public class UserService : IUserService<LoginUserDto>
 {
-    private IMapper _mapper;
+    private IUserMapper _mapper;
     private SignInManager<User> _signInManager;
     private UserManager<User> _userManager;
     private TokenService _tokenService;
 
-    public UserService(IMapper mapper, SignInManager<User> signInManager, UserManager<User> userManager, TokenService tokenService)
+    public UserService(IUserMapper mapper, SignInManager<User> signInManager, UserManager<User> userManager, TokenService tokenService)
     {
         _mapper = mapper;
         _signInManager = signInManager;
@@ -50,7 +51,7 @@ public class UserService : IUserService<LoginUserDto>
     }
     public async Task<ReadUserDto> Create(CreateUserDto dto)
     {
-        var user = _mapper.Map<User>(dto);
+        var user = _mapper.ToModel(dto);
         
         IdentityResult result = await _userManager.CreateAsync(user, dto.Password);
 
@@ -59,7 +60,7 @@ public class UserService : IUserService<LoginUserDto>
             throw new Exception("User register failed! Please check user details and try again.");
         }
 
-        var readDto = _mapper.Map<ReadUserDto>(user);
+        var readDto = _mapper.ToReadDto(user);
 
         return readDto;
     }
@@ -80,7 +81,7 @@ public class UserService : IUserService<LoginUserDto>
     {
         var users = await _signInManager.UserManager.Users.ToListAsync();
 
-        var dtoUsers = _mapper.Map<ICollection<ReadUserDto>>(users);
+        var dtoUsers = _mapper.ToReadDtoCollection(users);
 
         return dtoUsers;
     }
@@ -95,7 +96,7 @@ public class UserService : IUserService<LoginUserDto>
 
         if (user == null) throw new Exception("user not found");
 
-        var dtoUser = _mapper.Map<ReadUserDto>(user);
+        var dtoUser = _mapper.ToReadDto(user);
 
         return dtoUser;
     }

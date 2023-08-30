@@ -1,15 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using YuGiOhApi.Domain.IRepositories;
 using YuGiOhApi.Domain.Models;
-using YuGiOhApi.Infra.Database.Config.Identity;
+using YuGiOhApi.Infra.Database.Config.Entity;
 
 namespace YuGiOhApi.Infra.Database.Repositories;
 
 public class UserRepository : IUserRepository
 {
-    private readonly UserContext _context;
+    private readonly YugiohContext _context;
 
-    public UserRepository(UserContext context)
+    public UserRepository(YugiohContext context)
     {
         _context = context;
     }
@@ -37,7 +37,9 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> FindById(string name)
     {
-        var user = await _context.Users
+        var user = await _context
+            .Users
+            .Include(user => user.Decks)
             .FirstOrDefaultAsync(user => user.UserName == name);
 
         return user;

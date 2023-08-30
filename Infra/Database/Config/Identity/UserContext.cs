@@ -6,6 +6,7 @@ namespace YuGiOhApi.Infra.Database.Config.Identity;
 
 public class UserContext: IdentityDbContext<User>
 {
+
     public UserContext(DbContextOptions<UserContext> options): base(options)
     {
         

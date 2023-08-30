@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using YuGiOhApi.Domain.Dtos.Request;
+using YuGiOhApi.Domain.IServices;
 using YuGiOhApi.Services;
 
 namespace YuGiOhApi.Api.Controllers;
@@ -8,8 +9,8 @@ namespace YuGiOhApi.Api.Controllers;
 [Route("users")]
 public class UserController : ControllerBase
 {
-    private UserService _userService;
-    public UserController(UserService userService)
+    private readonly IUserService<LoginUserDto> _userService;
+    public UserController(IUserService<LoginUserDto> userService)
     {
         _userService = userService;
     }

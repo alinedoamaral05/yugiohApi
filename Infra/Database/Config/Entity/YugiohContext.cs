@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using YuGiOhApi.Domain.Models;
 
 namespace YuGiOhApi.Infra.Database.Config.Entity;
 
-public class YugiohContext : DbContext
+public class YugiohContext : IdentityDbContext<User>
 {
     public DbSet<Card> Cards { get; set; }
     public DbSet<CardType> CardTypes { get; set; }
