@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using YuGiOhApi.Infra.Database.Config.Identity;
+using YuGiOhApi.Infra.Database.Config.Entity;
 
 #nullable disable
 
-namespace YuGiOhApi.Migrations.User
+namespace YuGiOhApi.Migrations
 {
-    [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(YugiohContext))]
+    [Migration("20230830170930_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,21 @@ namespace YuGiOhApi.Migrations.User
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("CardDeck", b =>
+                {
+                    b.Property<int>("CardsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DecksId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CardsId", "DecksId");
+
+                    b.HasIndex("DecksId");
+
+                    b.ToTable("CardDeck");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -169,9 +187,6 @@ namespace YuGiOhApi.Migrations.User
                     b.Property<int>("CardTypeId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DeckId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("DeffensePoints")
                         .HasColumnType("int");
 
@@ -187,9 +202,7 @@ namespace YuGiOhApi.Migrations.User
 
                     b.HasIndex("CardTypeId");
 
-                    b.HasIndex("DeckId");
-
-                    b.ToTable("Card");
+                    b.ToTable("Cards");
                 });
 
             modelBuilder.Entity("YuGiOhApi.Domain.Models.CardType", b =>
@@ -206,7 +219,7 @@ namespace YuGiOhApi.Migrations.User
 
                     b.HasKey("Id");
 
-                    b.ToTable("CardType");
+                    b.ToTable("CardTypes");
                 });
 
             modelBuilder.Entity("YuGiOhApi.Domain.Models.Deck", b =>
@@ -228,7 +241,7 @@ namespace YuGiOhApi.Migrations.User
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Deck");
+                    b.ToTable("Decks");
                 });
 
             modelBuilder.Entity("YuGiOhApi.Domain.Models.User", b =>
@@ -296,6 +309,21 @@ namespace YuGiOhApi.Migrations.User
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("CardDeck", b =>
+                {
+                    b.HasOne("YuGiOhApi.Domain.Models.Card", null)
+                        .WithMany()
+                        .HasForeignKey("CardsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YuGiOhApi.Domain.Models.Deck", null)
+                        .WithMany()
+                        .HasForeignKey("DecksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -350,26 +378,24 @@ namespace YuGiOhApi.Migrations.User
             modelBuilder.Entity("YuGiOhApi.Domain.Models.Card", b =>
                 {
                     b.HasOne("YuGiOhApi.Domain.Models.CardType", "CardType")
-                        .WithMany()
+                        .WithMany("Cards")
                         .HasForeignKey("CardTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("YuGiOhApi.Domain.Models.Deck", null)
-                        .WithMany("Cards")
-                        .HasForeignKey("DeckId");
 
                     b.Navigation("CardType");
                 });
 
             modelBuilder.Entity("YuGiOhApi.Domain.Models.Deck", b =>
                 {
-                    b.HasOne("YuGiOhApi.Domain.Models.User", null)
+                    b.HasOne("YuGiOhApi.Domain.Models.User", "User")
                         .WithMany("Decks")
                         .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("YuGiOhApi.Domain.Models.Deck", b =>
+            modelBuilder.Entity("YuGiOhApi.Domain.Models.CardType", b =>
                 {
                     b.Navigation("Cards");
                 });

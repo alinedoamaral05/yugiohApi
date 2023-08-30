@@ -89,4 +89,18 @@ public class DeckController : ControllerBase
             return Problem(ex.Message);
         }
     }
+    [HttpPost("{id:int}/cards")]
+    public async Task<IActionResult> AddCardsToDeck(int id, [FromBody] List<int> cardIds)
+    {
+        try
+        {
+            var deck = await _deckService.AddCardsToDeck(id, cardIds);
+
+            return Ok(deck);
+        }
+        catch(Exception exception)
+        {
+            return Problem(exception.Message);
+        }
+    }
 }

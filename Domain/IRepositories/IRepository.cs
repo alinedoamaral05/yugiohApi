@@ -9,4 +9,5 @@ public interface IRepository<Type, FindBy>
     Task Delete(Type type);
     Task<Type?> FindById(FindBy id);
     Task<ICollection<Type>> FindAll();
+
 }

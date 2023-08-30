@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace YuGiOhApi.Migrations.User
+namespace YuGiOhApi.Migrations
 {
     /// <inheritdoc />
-    public partial class userFirst : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -51,7 +51,7 @@ namespace YuGiOhApi.Migrations.User
                 });
 
             migrationBuilder.CreateTable(
-                name: "CardType",
+                name: "CardTypes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -60,7 +60,7 @@ namespace YuGiOhApi.Migrations.User
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CardType", x => x.Id);
+                    table.PrimaryKey("PK_CardTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -170,7 +170,7 @@ namespace YuGiOhApi.Migrations.User
                 });
 
             migrationBuilder.CreateTable(
-                name: "Deck",
+                name: "Decks",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -180,16 +180,16 @@ namespace YuGiOhApi.Migrations.User
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Deck", x => x.Id);
+                    table.PrimaryKey("PK_Decks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Deck_AspNetUsers_UserId",
+                        name: "FK_Decks_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Card",
+                name: "Cards",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -198,23 +198,41 @@ namespace YuGiOhApi.Migrations.User
                     CardTypeId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AttackPoints = table.Column<int>(type: "int", nullable: false),
-                    DeffensePoints = table.Column<int>(type: "int", nullable: true),
-                    DeckId = table.Column<int>(type: "int", nullable: true)
+                    DeffensePoints = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Card", x => x.Id);
+                    table.PrimaryKey("PK_Cards", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Card_CardType_CardTypeId",
+                        name: "FK_Cards_CardTypes_CardTypeId",
                         column: x => x.CardTypeId,
-                        principalTable: "CardType",
+                        principalTable: "CardTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CardDeck",
+                columns: table => new
+                {
+                    CardsId = table.Column<int>(type: "int", nullable: false),
+                    DecksId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CardDeck", x => new { x.CardsId, x.DecksId });
+                    table.ForeignKey(
+                        name: "FK_CardDeck_Cards_CardsId",
+                        column: x => x.CardsId,
+                        principalTable: "Cards",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Card_Deck_DeckId",
-                        column: x => x.DeckId,
-                        principalTable: "Deck",
-                        principalColumn: "Id");
+                        name: "FK_CardDeck_Decks_DecksId",
+                        column: x => x.DecksId,
+                        principalTable: "Decks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -257,18 +275,18 @@ namespace YuGiOhApi.Migrations.User
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Card_CardTypeId",
-                table: "Card",
+                name: "IX_CardDeck_DecksId",
+                table: "CardDeck",
+                column: "DecksId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cards_CardTypeId",
+                table: "Cards",
                 column: "CardTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Card_DeckId",
-                table: "Card",
-                column: "DeckId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Deck_UserId",
-                table: "Deck",
+                name: "IX_Decks_UserId",
+                table: "Decks",
                 column: "UserId");
         }
 
@@ -291,16 +309,19 @@ namespace YuGiOhApi.Migrations.User
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Card");
+                name: "CardDeck");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "CardType");
+                name: "Cards");
 
             migrationBuilder.DropTable(
-                name: "Deck");
+                name: "Decks");
+
+            migrationBuilder.DropTable(
+                name: "CardTypes");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

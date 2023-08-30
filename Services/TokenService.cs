@@ -16,7 +16,7 @@ public class TokenService
             new Claim("id", user.Id)
         };
 
-        var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("384qfheh89hq89fsda8HFQ349FHE"));
+        var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("384qfheh89hq89fsda8HFQ349FHE3823HUUHSK"));
 
         var signInCredentials =
             new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256);
