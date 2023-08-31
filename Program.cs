@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 using YuGiOhApi.Domain.Dtos.Request;
 using YuGiOhApi.Domain.Dtos.Response;
@@ -34,7 +35,7 @@ builder.Services
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IUserService<LoginUserDto>, UserService>();
-builder.Services.AddScoped<IUserRepository,  UserRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserMapper, UserMapper>();
 
 builder.Services.AddScoped<TokenService>();
@@ -55,10 +56,10 @@ builder.Services.AddAuthentication(opts =>
 {
     opts.DefaultAuthenticateScheme =
     JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer( opts =>
+}).AddJwtBearer(opts =>
 {
     opts.TokenValidationParameters = new
-    Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("384qfheh89hq89fsda8HFQ349FHE3823HUUHSK")),
@@ -66,12 +67,59 @@ builder.Services.AddAuthentication(opts =>
         ValidateIssuer = false,
         ClockSkew = TimeSpan.Zero
     };
-}) ;
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new()
+    {
+        Title = "YuGiOhApi",
+        Version = "v1"
+    });
+
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.OAuth2,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Here enter JWT token with Bearer format like Bearer[space]{token}",
+        Flows= new OpenApiOAuthFlows
+        {
+            Implicit = new OpenApiOAuthFlow
+            {
+                AuthorizationUrl = new Uri("https://localhost:5001/connect/authorize"),
+                Scopes = new Dictionary<string, string>
+                {
+                    { "openid", "OpenId" },
+                    { "profile", "Profile" },
+                    { "email", "Email" },
+                    { "offline_access", "Offline Access" }
+                }
+            }
+        }
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Id = "Bearer",
+                    Type = ReferenceType.SecurityScheme
+                }
+            },
+            new string[] { }
+        }
+    });
+
+});
 
 var app = builder.Build();
 
