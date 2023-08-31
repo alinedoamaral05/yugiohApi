@@ -53,6 +53,10 @@ builder.Services.AddScoped<IDeckService, DeckService>();
 builder.Services.AddScoped<IDeckRepository, DeckRepository>();
 builder.Services.AddScoped<IDeckMapper, DeckMapper>();
 
+builder.Services.AddScoped<IChallengeService<CreateChallengeDto, ReadChallengeDto, ChoseDeckDto>, ChallengeService>();
+builder.Services.AddScoped<IChallengerRepository, ChallengeRepository>();
+builder.Services.AddScoped<IChallengeMapper<Challenge, CreateChallengeDto, ReadChallengeDto, ChoseDeckDto>, ChallengeMapper>();
+
 builder.Services.AddAuthentication(opts =>
 {
     opts.DefaultAuthenticateScheme =

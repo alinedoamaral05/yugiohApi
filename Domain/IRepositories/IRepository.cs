@@ -1,6 +1,4 @@
-﻿using YuGiOhApi.Domain.Models;
-
-namespace YuGiOhApi.Domain.IRepositories;
+﻿namespace YuGiOhApi.Domain.IRepositories;
 
 public interface IRepository<Type, FindBy>
 {
