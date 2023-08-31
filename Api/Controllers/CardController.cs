@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using YuGiOhApi.Domain.Dtos.Request;
 using YuGiOhApi.Domain.Dtos.Response;
 using YuGiOhApi.Domain.IServices;
@@ -15,6 +16,7 @@ public class CardController : ControllerBase
     {
         _cardService = cardService;
     }
+
 
     [HttpGet]
     public async Task<IActionResult> GetCards()
@@ -44,6 +46,22 @@ public class CardController : ControllerBase
             return Problem(ex.Message);
         }
     }
+
+    [HttpGet("{name}")]
+    public async Task<IActionResult> GetByName(string name)
+    {
+        try
+        {
+            var card = await _cardService.FindByName(name);
+
+            return Ok(card);
+        }
+        catch (Exception ex)
+        {
+            return Problem(ex.Message);
+        }
+    }
+
     [HttpPost]
     public async Task<IActionResult> PostCard([FromBody] CreateCardDto dto)
     {
