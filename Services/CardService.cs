@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using YuGiOhApi.Domain.Dtos.Request;
+﻿using YuGiOhApi.Domain.Dtos.Request;
 using YuGiOhApi.Domain.Dtos.Response;
 using YuGiOhApi.Domain.IRepositories;
 using YuGiOhApi.Domain.IServices;
@@ -76,6 +75,13 @@ namespace YuGiOhApi.Services
             var readDto = _mapper.ToReadDto(card);
 
             return readDto;
+        }
+
+        async Task<int> ICardService.GetTotalCards()
+        {
+            var cards = await _cardRepository.GetTotalCards();
+           
+            return cards;
         }
     }
 }

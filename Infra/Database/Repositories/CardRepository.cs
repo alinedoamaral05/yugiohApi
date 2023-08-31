@@ -23,9 +23,9 @@ namespace YuGiOhApi.Infra.Database.Repositories
             return card;
         }
 
-        public async Task GetTotalCards()
+        public async Task<int> GetTotalCards()
         {
-            await _context.Cards.CountAsync();
+            return await _context.Cards.CountAsync();
         }
 
         public async Task Delete(Card card)

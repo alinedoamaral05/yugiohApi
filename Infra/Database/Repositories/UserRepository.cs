@@ -22,6 +22,11 @@ public class UserRepository : IUserRepository
         return user;
     }
 
+    public async Task<int> GetTotalUsers()
+    {
+        return await _context.Users.CountAsync();
+    }
+
     public async Task Delete(User user)
     {
         _context.Users.Remove(user);
