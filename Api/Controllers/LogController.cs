@@ -4,6 +4,9 @@ using YuGiOhApi.Domain.IServices;
 
 namespace YuGiOhApi.Api.Controllers;
 
+/// <summary>
+/// Classe para gerenciar as requisições de log.
+/// </summary>
 [ApiController]
 [Route("cards")]
 public class LogController : ControllerBase
@@ -16,7 +19,13 @@ public class LogController : ControllerBase
         _userService = userService;
     }
 
+    /// <summary>
+    /// Retorna o total de cartas no banco de dados.
+    /// </summary>
+    /// <returns>Task de IActionResult</returns>
+    /// <response code="200">Caso a requisição seja concluído com sucesso.</response>
     [HttpGet("AllCardsCount")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetTotalCards()
     {
         try
@@ -30,7 +39,13 @@ public class LogController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Retorna o total de usuários no banco de dados.
+    /// </summary>
+    /// <returns>Task de IActionResult</returns>
+    /// <response code="200">Caso a requisição seja concluído com sucesso.</response>
     [HttpGet("AllUsersCount")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetTotalUsers()
     {
         try
@@ -43,5 +58,4 @@ public class LogController : ControllerBase
             return Problem(ex.Message);
         }
     }
-
 }
