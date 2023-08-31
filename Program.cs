@@ -83,25 +83,11 @@ builder.Services.AddSwaggerGen(options =>
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
-        Type = SecuritySchemeType.OAuth2,
+        Type = SecuritySchemeType.ApiKey,
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
         Description = "Here enter JWT token with Bearer format like Bearer[space]{token}",
-        Flows= new OpenApiOAuthFlows
-        {
-            Implicit = new OpenApiOAuthFlow
-            {
-                AuthorizationUrl = new Uri("https://localhost:5001/connect/authorize"),
-                Scopes = new Dictionary<string, string>
-                {
-                    { "openid", "OpenId" },
-                    { "profile", "Profile" },
-                    { "email", "Email" },
-                    { "offline_access", "Offline Access" }
-                }
-            }
-        }
     });
 
     options.AddSecurityRequirement(new OpenApiSecurityRequirement

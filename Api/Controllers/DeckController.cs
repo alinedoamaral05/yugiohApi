@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using YuGiOhApi.Domain.Dtos.Request;
-using YuGiOhApi.Domain.Dtos.Response;
 using YuGiOhApi.Domain.IServices;
 
 namespace YuGiOhApi.Api.Controllers;
@@ -17,6 +17,7 @@ public class DeckController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetDecks()
     {
         try
@@ -31,6 +32,7 @@ public class DeckController : ControllerBase
         }
     }
     [HttpGet("{id:int}")]
+    [Authorize]
     public async Task<IActionResult> GetDeckById(int id)
     {
         try
@@ -45,6 +47,7 @@ public class DeckController : ControllerBase
         }
     }
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> PostDeck([FromBody] CreateDeckDto dto)
     {
         try
@@ -62,6 +65,7 @@ public class DeckController : ControllerBase
         }
     }
     [HttpPut("{id:int}")]
+    [Authorize]
     public async Task<IActionResult> UpdateDeck(int id, [FromBody] UpdateDeckDto dto)
     {
         try
@@ -77,6 +81,7 @@ public class DeckController : ControllerBase
         }
     }
     [HttpDelete("{id:int}")]
+    [Authorize]
     public async Task<IActionResult> DeleteDeck(int id)
     {
         try
@@ -90,6 +95,7 @@ public class DeckController : ControllerBase
         }
     }
     [HttpPost("{id:int}/cards")]
+    [Authorize]
     public async Task<IActionResult> AddCardsToDeck(int id, [FromBody] List<int> cardIds)
     {
         try

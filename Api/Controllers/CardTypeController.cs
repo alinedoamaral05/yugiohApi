@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using YuGiOhApi.Domain.Dtos.Request;
-using YuGiOhApi.Domain.Dtos.Response;
 using YuGiOhApi.Domain.IServices;
 
 namespace YuGiOhApi.Api.Controllers;
@@ -17,6 +17,7 @@ public class CardTypeController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetCards()
     {
         try
@@ -32,6 +33,7 @@ public class CardTypeController : ControllerBase
     }
 
     [HttpGet("{id:int}")]
+    [Authorize]
     public async Task<IActionResult> GetCardTypeById(int id)
     {
         try
@@ -47,6 +49,7 @@ public class CardTypeController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> PostCardType([FromBody] CreateCardTypeDto dto)
     {
         try
@@ -65,6 +68,7 @@ public class CardTypeController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
+    [Authorize]
     public async Task<IActionResult> UpdateCardType(int id, [FromBody] UpdateCardTypeDto dto)
     {
         try
@@ -80,6 +84,7 @@ public class CardTypeController : ControllerBase
         }
     }
     [HttpDelete("{id:int}")]
+    [Authorize]
     public async Task<IActionResult> DeleteCardType(int id)
     {
         try
