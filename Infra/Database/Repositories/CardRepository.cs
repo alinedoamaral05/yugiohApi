@@ -3,6 +3,7 @@ using System.Text;
 using YuGiOhApi.Domain.IRepositories;
 using YuGiOhApi.Domain.Models;
 using YuGiOhApi.Infra.Database.Config.Entity;
+using YuGiOhApi.Providers;
 
 namespace YuGiOhApi.Infra.Database.Repositories
 {
@@ -75,10 +76,20 @@ namespace YuGiOhApi.Infra.Database.Repositories
 
         public async Task<ICollection<Card>> FindByName(string name)
         {
-            var lowerCaseName = name.ToLowerInvariant();
-            var cardList = await _context.Cards
-                .Where(card => card.Name.ToLower().Contains(lowerCaseName))
+            var lowerCaseName = name.NormalizedSearch();
+
+            var cardsDb = await
+                _context
+                .Cards
                 .ToListAsync();
+
+            var cardList = new List<Card>();
+
+            foreach(var card in cardsDb)
+            {
+                if(card.Name.NormalizedSearch().Contains(lowerCaseName))
+                    cardList.Add(card);
+            }
 
             return cardList;
         }
