@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using YuGiOhApi.Domain.Dtos.Request;
 using YuGiOhApi.Domain.IServices;
-using YuGiOhApi.Services;
 
 namespace YuGiOhApi.Api.Controllers;
 
@@ -15,6 +15,7 @@ public class UserController : ControllerBase
         _userService = userService;
     }
     [HttpPost("login")]
+    [AllowAnonymous]
     public async Task<IActionResult> Login(LoginUserDto dto)
     {
         var token = await _userService.Login(dto);
@@ -22,6 +23,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("register")]
+    [AllowAnonymous]
     public async Task<IActionResult> RegisterUser(CreateUserDto dto)
     {
         try

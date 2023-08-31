@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Text;
 using YuGiOhApi.Domain.IRepositories;
 using YuGiOhApi.Domain.Models;
 using YuGiOhApi.Infra.Database.Config.Entity;
@@ -74,7 +75,7 @@ namespace YuGiOhApi.Infra.Database.Repositories
 
         public async Task<ICollection<Card>> FindByName(string name)
         {
-            var lowerCaseName = name.ToLower();
+            var lowerCaseName = name.ToLowerInvariant();
             var cardList = await _context.Cards
                 .Where(card => card.Name.ToLower().Contains(lowerCaseName))
                 .ToListAsync();

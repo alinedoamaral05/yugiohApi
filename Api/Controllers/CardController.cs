@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using YuGiOhApi.Domain.Dtos.Request;
-using YuGiOhApi.Domain.Dtos.Response;
 using YuGiOhApi.Domain.IServices;
 
 namespace YuGiOhApi.Api.Controllers;
@@ -19,6 +18,7 @@ public class CardController : ControllerBase
 
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetCards()
     {
         try
@@ -33,6 +33,7 @@ public class CardController : ControllerBase
         }
     }
     [HttpGet("{id:int}")]
+    [Authorize]
     public async Task<IActionResult> GetCardById(int id)
     {
         try
@@ -48,6 +49,7 @@ public class CardController : ControllerBase
     }
 
     [HttpGet("{name}")]
+    [Authorize]
     public async Task<IActionResult> GetByName(string name)
     {
         try
