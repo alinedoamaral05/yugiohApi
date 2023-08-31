@@ -9,6 +9,7 @@ public class YugiohContext : IdentityDbContext<User>
     public DbSet<Card> Cards { get; set; }
     public DbSet<CardType> CardTypes { get; set; }
     public DbSet<Deck> Decks { get; set; }
+    public DbSet<Challenge> Challenges { get; set; }
 
     public YugiohContext(DbContextOptions<YugiohContext> options) : base(options) { }
 }
