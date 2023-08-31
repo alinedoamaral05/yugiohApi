@@ -22,6 +22,11 @@ namespace YuGiOhApi.Infra.Database.Repositories
             return card;
         }
 
+        public async Task GetTotalCards()
+        {
+            await _context.Cards.CountAsync();
+        }
+
         public async Task Delete(Card card)
         {
             _context.Cards.Remove(card);
@@ -66,5 +71,16 @@ namespace YuGiOhApi.Infra.Database.Repositories
 
             return cardsList;
         }
+
+        public async Task<ICollection<Card>> FindByName(string name)
+        {
+            var lowerCaseName = name.ToLower();
+            var cardList = await _context.Cards
+                .Where(card => card.Name.ToLower().Contains(lowerCaseName))
+                .ToListAsync();
+
+            return cardList;
+        }
+
     }
 }

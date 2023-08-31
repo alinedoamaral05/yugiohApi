@@ -1,4 +1,5 @@
-﻿using YuGiOhApi.Domain.Dtos.Request;
+﻿using Microsoft.EntityFrameworkCore;
+using YuGiOhApi.Domain.Dtos.Request;
 using YuGiOhApi.Domain.Dtos.Response;
 using YuGiOhApi.Domain.IRepositories;
 using YuGiOhApi.Domain.IServices;
@@ -35,6 +36,7 @@ namespace YuGiOhApi.Services
             await _cardRepository.Delete(card);
         }
 
+
         public async Task<ICollection<ReadCardDto>> FindAll()
         {
             var cards = await _cardRepository.FindAll();
@@ -50,6 +52,13 @@ namespace YuGiOhApi.Services
             var readDto = _mapper.ToReadDto(card);
 
             return readDto;
+        }
+
+        public async Task<ICollection<ReadCardDto>> FindByName(string name)
+        {
+            var card = await _cardRepository.FindByName(name);
+            var list = _mapper.ToReadDtoCollection(card);
+            return list;
         }
 
         public async Task<ReadCardDto> UpdateById(UpdateCardDto dto, int id)
