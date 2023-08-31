@@ -6,4 +6,5 @@ namespace YuGiOhApi.Domain.IServices;
 public interface ICardService : IService<ReadCardDto, CreateCardDto, UpdateCardDto, int>
 {
     public Task<ICollection<ReadCardDto>> FindByName(string name);
+    public Task<int> GetTotalCards();
 }

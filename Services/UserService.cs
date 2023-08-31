@@ -1,10 +1,10 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using YuGiOhApi.Domain.Dtos.Request;
 using YuGiOhApi.Domain.Dtos.Response;
 using YuGiOhApi.Domain.IServices;
 using YuGiOhApi.Domain.Models;
+using YuGiOhApi.Exceptions;
 using YuGiOhApi.Providers.Interfaces;
 
 namespace YuGiOhApi.Services;
@@ -94,7 +94,7 @@ public class UserService : IUserService<LoginUserDto>
             .Users
             .FirstOrDefaultAsync(user => user.NormalizedUserName == id);
 
-        if (user == null) throw new Exception("user not found");
+        if (user == null) throw new NotFoundException(name:"User");
 
         var dtoUser = _mapper.ToReadDto(user);
 
@@ -104,5 +104,14 @@ public class UserService : IUserService<LoginUserDto>
     public async Task<ReadUserDto> UpdateById(UpdateUserDto dto, string id)
     {
         throw new NotImplementedException();
+    }
+
+
+    public async Task<int> GetTotalUsers()
+    {
+        var users = await _signInManager.UserManager.Users.ToListAsync();
+        var usersCount = users.Count();
+
+        return usersCount;
     }
 }
