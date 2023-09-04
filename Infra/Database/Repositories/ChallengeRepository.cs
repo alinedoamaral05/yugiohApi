@@ -27,14 +27,21 @@ public class ChallengeRepository : IChallengerRepository
         await _context.SaveChangesAsync();
     }
 
-    public Task<ICollection<Challenge>> FindAll()
+    public async Task<ICollection<Challenge>> FindAll()
     {
-        throw new NotImplementedException();
+        var challengeList = await _context.Challenges
+            .Include(challenge => challenge.Users)
+            .ThenInclude(user => user.Decks)
+            .ToListAsync();
+
+        return challengeList;
     }
 
     public async Task<Challenge?> FindById(int id)
     {
         var duel = await _context.Challenges
+            .Include(challenge => challenge.Users)
+            .ThenInclude(user => user.Decks)
             .FirstOrDefaultAsync(duel => duel.Id == id);
 
         return duel;

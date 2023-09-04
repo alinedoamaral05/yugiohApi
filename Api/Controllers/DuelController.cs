@@ -16,6 +16,29 @@ public class DuelController : ControllerBase
         _chService = challengeService;
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetAllChallenge()
+    {
+        try
+        {
+            var challenges = await _chService.FindAll();
+
+            return Ok(challenges);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var challenge = await _chService.FindById(id);
+
+        return Ok(challenge);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Duel([FromBody] CreateChallengeDto dto)
     {
