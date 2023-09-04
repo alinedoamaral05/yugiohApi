@@ -24,7 +24,10 @@ public class UserRepository : IUserRepository
 
     public async Task<int> GetTotalUsers()
     {
-        return await _context.Users.CountAsync();
+        return await _context
+            .Users
+            .Include(user => user.Decks)
+            .CountAsync();
     }
 
     public async Task Delete(User user)

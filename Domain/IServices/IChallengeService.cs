@@ -12,4 +12,7 @@ public interface IChallengeService<CreateChallengeDto, ReadChallengeDto, ChoseDe
 
     public Task<ReadChallengeDto> SelectDeck(int duelId, ChoseDeckDto choseDeck);
 
+    public Task<ICollection<ReadChallengeDto>> FindAll();
+
+    public Task<ReadChallengeDto> FindById(int id);
 }

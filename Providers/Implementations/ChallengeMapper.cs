@@ -18,10 +18,16 @@ public class ChallengeMapper : IChallengeMapper<Challenge, CreateChallengeDto, R
     public Challenge ChoseToModel(ChoseDeckDto choseDto) =>
         _mapper.Map<Challenge>(choseDto);
 
-    public ReadChallengeDto ReadChallenge(Challenge challenge) =>
+    public ReadChallengeDto ToReadChallengeDto(Challenge challenge) =>
         _mapper.Map<ReadChallengeDto>(challenge);
-    
+
+    public ICollection<ReadChallengeDto> ReadCollection(ICollection<Challenge> challenges) =>
+        _mapper.Map<ICollection<ReadChallengeDto>>(challenges);
+
     public Challenge ToModel(CreateChallengeDto createDto) =>
         _mapper.Map<Challenge>(createDto);
 
+    public Challenge UpdateModel(ChoseDeckDto dto, Challenge challenge) =>
+        _mapper.Map(dto, challenge);
+    
 }

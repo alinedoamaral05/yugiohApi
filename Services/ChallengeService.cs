@@ -26,12 +26,12 @@ public class ChallengeService : IChallengeService<CreateChallengeDto, ReadChalle
         var duel = await _chRepository.FindById(id);
 
         if (duel is null)
-            throw new NotFoundException(name : "Duel");
+            throw new NotFoundException(name: "Duel");
 
         duel.Status = true;
-        
+
         await _chRepository.Update(duel);
-        
+
         return duel;
     }
 
@@ -41,12 +41,12 @@ public class ChallengeService : IChallengeService<CreateChallengeDto, ReadChalle
         var opponent = await _signInManager.UserManager.Users.FirstOrDefaultAsync(user => user.UserName == createChallengeDto.OpponentUsername);
 
         if (challenger is null || opponent is null)
-            throw new NotFoundException(name : "User");
+            throw new NotFoundException(name: "User");
 
         var challenge = _mapper.ToModel(createChallengeDto);
         await _chRepository.Create(challenge);
 
-        var challengeDto = _mapper.ReadChallenge(challenge);
+        var challengeDto = _mapper.ToReadChallengeDto(challenge);
         return challengeDto;
     }
 
@@ -69,13 +69,13 @@ public class ChallengeService : IChallengeService<CreateChallengeDto, ReadChalle
         if (duel is null)
             throw new NotFoundException(name: "Duel");
 
-        var challenger = await _signInManager.UserManager.Users.FirstOrDefaultAsync(user => user.UserName == duel.ChallengerUsername);
-       
+        var challenger = await _signInManager.UserManager.Users.Include(user => user.Decks).FirstOrDefaultAsync(user => user.UserName == duel.ChallengerUsername);
+
         if (challenger is null)
             throw new NotFoundException(name: "User");
 
-        var opponent = await _signInManager.UserManager.Users.FirstOrDefaultAsync(user => user.UserName == duel.OpponentUsername);
-        
+        var opponent = await _signInManager.UserManager.Users.Include(user => user.Decks).FirstOrDefaultAsync(user => user.UserName == duel.OpponentUsername);
+
         if (opponent is null)
             throw new NotFoundException(name: "User");
 
@@ -85,6 +85,9 @@ public class ChallengeService : IChallengeService<CreateChallengeDto, ReadChalle
         var challengerDeck = challenger.Decks.FirstOrDefault(d => d.Id == choseDeck.ChosenChallengerDeckId);
         var opponentDeck = opponent.Decks.FirstOrDefault(d => d.Id == choseDeck.ChosenOpponentDeckId);
 
+
+        _mapper.UpdateModel(choseDeck, duel);
+
         if (challengerDeck is null || opponentDeck is null)
         {
             throw new NotFoundException(name: "Deck");
@@ -92,8 +95,26 @@ public class ChallengeService : IChallengeService<CreateChallengeDto, ReadChalle
 
         await _chRepository.Update(duel);
 
-        var readChallengeDto = _mapper.ReadChallenge(duel);
+        var readChallengeDto = _mapper.ToReadChallengeDto(duel);
 
         return readChallengeDto;
+    }
+
+    public async Task<ICollection<ReadChallengeDto>> FindAll()
+    {
+        var challenges = await _chRepository.FindAll();
+
+        var list = _mapper.ReadCollection(challenges);
+
+        return list;
+    }
+
+    public async Task<ReadChallengeDto> FindById(int id)
+    {
+        var challenge = await _chRepository.FindById(id);
+
+        var challengeDto = _mapper.ToReadChallengeDto(challenge);
+
+        return challengeDto;
     }
 }

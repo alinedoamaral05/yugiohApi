@@ -31,7 +31,10 @@ public class DeckRepository : IDeckRepository
     public async Task<ICollection<Deck>> FindAll()
     {
 
-        var deckList = await _context.Decks.ToListAsync();
+        var deckList = await _context.Decks
+            .Include(deck => deck.User)
+            .Include(deck => deck.Cards)
+            .ToListAsync();
 
         return deckList;
     }
@@ -39,7 +42,9 @@ public class DeckRepository : IDeckRepository
     public async Task<Deck?> FindById(int id)
     {
         var deck = await _context.Decks
-        .FirstOrDefaultAsync(deck => deck.Id == id);
+            .Include(deck => deck.User)
+            .Include(deck => deck.Cards)
+            .FirstOrDefaultAsync(deck => deck.Id == id);
 
         return deck;
     }

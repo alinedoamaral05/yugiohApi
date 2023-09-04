@@ -36,8 +36,11 @@ namespace YuGiOhApi.Infra.Database.Repositories
         }
 
         public async Task<ICollection<Card>> FindAll()
-        {            
-            var cardList = await _context.Cards.ToListAsync();
+        {
+            var cardList = await _context.Cards
+                .Include(card => card.CardType)
+                .Include(card => card.Decks)
+                .ToListAsync();
 
             return cardList;
         }
@@ -45,14 +48,16 @@ namespace YuGiOhApi.Infra.Database.Repositories
         public async Task<Card?> FindById(int id)
         {
             var card = await _context.Cards
-            .FirstOrDefaultAsync(card => card.Id == id);
+                .Include(card => card.CardType)
+                .Include(card => card.Decks)
+                .FirstOrDefaultAsync(card => card.Id == id);
 
             return card;
         }
 
         public async Task<Card> Update(Card card)
         {
-            _context.Update(card);
+            _context.Cards.Update(card);
             await _context.SaveChangesAsync();
 
             return card;
@@ -60,15 +65,15 @@ namespace YuGiOhApi.Infra.Database.Repositories
 
         public async Task<ICollection<Card>> FindCardsById(List<int> cardIds)
         {
-            List<Card> cardsList = new List<Card>(); 
+            List<Card> cardsList = new List<Card>();
 
-            foreach(var card in cardIds)
+            foreach (var card in cardIds)
             {
-               cardsList.Add(await 
-                   _context
-                   .Cards
-                   .FirstOrDefaultAsync(carda => carda.Id == card) 
-                   ?? throw new BadHttpRequestException($"Id: {card} not exists"));
+                cardsList.Add(await
+                    _context
+                    .Cards
+                    .FirstOrDefaultAsync(carda => carda.Id == card)
+                    ?? throw new BadHttpRequestException($"Id: {card} not exists"));
             }
 
             return cardsList;
@@ -81,13 +86,15 @@ namespace YuGiOhApi.Infra.Database.Repositories
             var cardsDb = await
                 _context
                 .Cards
+                .Include(card => card.CardType)
+                .Include(card => card.Decks)
                 .ToListAsync();
 
             var cardList = new List<Card>();
 
-            foreach(var card in cardsDb)
+            foreach (var card in cardsDb)
             {
-                if(card.Name.NormalizedSearch().Contains(lowerCaseName))
+                if (card.Name.NormalizedSearch().Contains(lowerCaseName))
                     cardList.Add(card);
             }
 

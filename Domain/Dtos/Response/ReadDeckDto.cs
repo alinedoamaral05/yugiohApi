@@ -1,4 +1,6 @@
-﻿namespace YuGiOhApi.Domain.Dtos.Response;
+﻿using YuGiOhApi.Domain.Models;
+
+namespace YuGiOhApi.Domain.Dtos.Response;
 
 public class ReadDeckDto
 {
@@ -6,5 +8,5 @@ public class ReadDeckDto
 
     public string Name { get; set; }
 
-    public string UserName { get; set; }
+    public ReadUserDto User { get; set; }
 }
